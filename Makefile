@@ -12,4 +12,4 @@ lint:
 	@mypy
 
 test:
-	@pytest --cov . tests/
+	@pytest --cov . --verbose --color=yes --cov-report=term-missing:skip-covered tests/

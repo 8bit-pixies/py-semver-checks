@@ -41,8 +41,8 @@ def ast2dict(node, file: Optional[str] = None):
     assert isinstance(node, AST)
     to_return = dict()
     to_return["_type"] = node.__class__.__name__
-    if file is not None:
-        to_return["_file"] = file
+    file = "__main__.py" if file is None else file
+    to_return["_file"] = file
     for attr in dir(node):
         if attr.startswith("_"):
             continue
@@ -56,6 +56,19 @@ def ast2dict_from_str(code: str, file: Optional[str] = None):
 
 def ast2dict_from_file(file_path: str | Path):
     return ast2dict(parse(Path(file_path).open().read()), file=str(file_path))
+
+
+def copy_dictionary_exclude_keys(data, exclude_keys: List[str]):
+    if isinstance(data, dict):
+        copy_dictionary = {}
+        for key, value in data.items():
+            if key not in exclude_keys:
+                copy_dictionary[key] = copy_dictionary_exclude_keys(value, exclude_keys)
+        return copy_dictionary
+    if isinstance(data, list):
+        return [copy_dictionary_exclude_keys(value, exclude_keys) for value in data]
+    else:
+        return data
 
 
 def get_info_by_key_value(dictionary, key, value) -> List[Tuple[str, List[Any]]]:
