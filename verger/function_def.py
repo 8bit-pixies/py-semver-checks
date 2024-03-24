@@ -30,9 +30,11 @@ class FunctionDefChecker:
         function_node = reduce(dict.get, function_def_key, ast_dict)
         function_node_args = function_node["args"]
         # go through each type of args and format it nicely so it can be compared, in order
-        info = {'lineno': function_node['lineno'], 'col_offset': function_node['col_offset']}
+        info = {"lineno": function_node["lineno"], "col_offset": function_node["col_offset"]}
         for arg_type in ["args", "vararg", "kwonlyargs", "kw_defaults", "kwarg", "defaults"]:
-            arg_type_keys = function_node_args[arg_type].keys() if function_node_args.get(arg_type) is not None else None
+            arg_type_keys = (
+                function_node_args[arg_type].keys() if function_node_args.get(arg_type) is not None else None
+            )
             if arg_type_keys is None:
                 continue
             arg_info_base = [function_node_args[arg_type][indx] for indx in sorted(arg_type_keys)]

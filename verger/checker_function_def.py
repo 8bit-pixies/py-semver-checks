@@ -34,7 +34,6 @@ class FunctionDefTestGenerator(BaseTestGenerator):
                 continue
 
             arg_info_base = [function_node[arg_type][indx] for indx in sorted(arg_type_keys)]
-            print(arg_info_base)
             arg_info = [arg_info["arg"] for arg_info in arg_info_base if arg_info["_type"] == "arg"]
             info[arg_type] = arg_info
         return info
